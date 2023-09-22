@@ -1,28 +1,44 @@
-const container = document.getElementById('container');
+const container = document.querySelector("#container");
+const clear = document.querySelector("button");
 
 // Creates a default grid sized 16x16
-function makeRows(rows, cols) {
-  container.style.setProperty('--grid-rows', rows);
-  container.style.setProperty('--grid-cols', cols);
-  for (c = 0; c < (rows * cols); c++) {
-    let cell = document.createElement('div');
-    cell.innerText = (c + 1);
-    container.appendChild(cell).className = 'grid-item';
-  };
-};
+function createGrid(size) {
+  container.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+  container.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
 
-makeRows(16, 16);
+  for (let i = 0; i < size * size; i++) {
 
-/* Created a "hover" effect so that the grid divs change 
-colour when you hover your mouse over them, and ends when your mouse leaves it */
-const gridItems = document.querySelectorAll('.grid-item')
+    let grid = document.createElement("div");
+    grid.style.backgroundColor = "#fff";
+    container.appendChild(grid);
 
-gridItems.forEach(cell => {
-  cell.addEventListener("mouseover", () => {
-    cell.style.backgroundColor = '#000';
-  });
+    /* Created a “hover” effect so that the grid divs change color
+     when mouse passes over them, leaving a (pixelated) trail through grid */
+    grid.addEventListener('mouseover', e => {
+      grid.style.backgroundColor = "#000";
+    })
 
-  cell.addEventListener('mouseout', () => {
-    cell.style.backgroundColor = '';
-  });
-});
+    // Function to reset the grid
+    function clearGrid() {
+      clear.addEventListener('click', e => {
+        grid.style.backgroundColor = "#fff";
+      })
+    }
+
+    clearGrid();
+  }
+}
+
+createGrid(16);
+
+// Pop-up window
+function newGrid() {
+  let number = prompt("What size would you like the grid to be? (1-100)");
+  container.style.gridTemplateRows = `repeat(${number}, 1fr)`;
+  container.style.gridTemplateColumns = `repeat(${number}, 1fr)`;
+  createGrid(number);
+}
+
+clear.addEventListener('click', () => {
+  newGrid()
+})

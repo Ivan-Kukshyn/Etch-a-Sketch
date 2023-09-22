@@ -1,18 +1,38 @@
-/* The default grid sized 16x16 */
-:root {
-  --grid-cols: 1;
-  --grid-rows: 1;
+h1 {
+  text-align: center;
+  text-transform: uppercase;
 }
 
 #container {
   display: grid;
-  grid-gap: 1em;
-  grid-template-rows: repeat(var(--grid-rows), 1fr);
-  grid-template-columns: repeat(var(--grid-cols), 1fr);
+  width: 600px;
+  height: 600px;
+  margin: 0 auto;
+  border: 2px solid #000;
 }
 
-.grid-item {
-  padding: 1em;
-  border: 1px solid #000;
+button {
+  cursor: pointer;
+  color: #fff;
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  display: flex;
+  justify-content: center;
   text-align: center;
+  font-weight: 400;
+  line-height: 1.5;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  margin: 20px 20px;
+  padding: 15px 15px;
+  font-size: 16px;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
+
+button:hover {
+  color: #fff;
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+}
+
