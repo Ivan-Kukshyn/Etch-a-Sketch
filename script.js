@@ -1,12 +1,23 @@
 const container = document.querySelector('#container');
 const clear = document.querySelector('button');
 let isDrawing = false;
+
 // Colour change function
 function getRandomColor() {
   const r = Math.floor(Math.random() * 256);
   const g = Math.floor(Math.random() * 256);
   const b = Math.floor(Math.random() * 256);
   return 'rgb(' + r + ', ' + g + ', ' + b + ')';
+};
+
+function darkSquare() {
+  let currentBrightness = square.dataset.brightness || 100;
+  currentBrightness = parseInt(currentBrightness) - 10;
+
+  if (currentBrightness >= 0) {
+    square.style.filter = `brightness(${currentBrightness}%)`;
+    square.dataset.brightness = currentBrightness;
+  }
 };
 
 // Creates a default grid sized 16x16
@@ -23,9 +34,16 @@ function createGrid(size) {
     /* Created a “hover” effect so that the grid divs change color
      when mouse passes over them, leaving a (pixelated) trail through grid */
     square.addEventListener('mouseover', e => {
-      if (isDrawing) (
+      /* Created progressive darkening effect where each interaction adds 10% more black
+       to the square. The objective is to achieve a completely black square only after ten interactions. */
+      let currentBrightness = square.dataset.brightness || 100;
+      currentBrightness = parseInt(currentBrightness) - 10;
+
+      if (isDrawing && currentBrightness >= 0) {
         square.style.backgroundColor = getRandomColor()
-      )
+        square.style.filter = `brightness(${currentBrightness}%)`;
+        square.dataset.brightness = currentBrightness;
+      }
     });
 
     square.addEventListener('mouseup', e => {
@@ -40,6 +58,8 @@ function createGrid(size) {
     function clearGrid() {
       clear.addEventListener('click', e => {
         square.style.backgroundColor = '#fff';
+        square.style.filter = '';
+        square.dataset.brightness = '';
       })
     }
 
@@ -60,6 +80,3 @@ function newGrid() {
 clear.addEventListener('click', () => {
   newGrid()
 });
-
-
-
